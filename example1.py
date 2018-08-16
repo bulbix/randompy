@@ -21,6 +21,8 @@ class SampleWindow(QWidget):
         self.setMaximumWidth(800)
         self.setIconModes()
         self.setButton()
+        self.center()
+        self.setAboutButton()
         self.show()
         print("Sample Window show in the GUI\n")
 
@@ -67,6 +69,25 @@ class SampleWindow(QWidget):
         if userInfo == QMessageBox.No:
             return "N"
 
+    def center(self):
+        """ Function to center the application
+        """
+        qRect = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qRect.moveCenter(centerPoint)
+        self.move(qRect.topLeft())
+
+    def setAboutButton(self):
+        """ Function to set About Button
+        """
+        self.aboutButton = QPushButton("About", self)
+        self.aboutButton.move(100, 100)
+        self.aboutButton.clicked.connect(self.showAbout)
+
+    def showAbout(self):
+        """ Function to show About Box
+        """
+        QMessageBox.about(self.aboutButton, "About PySide", "PySide is a cross-platform tool for generating GUI")
 
 if __name__ == '__main__':
     try:
@@ -74,10 +95,10 @@ if __name__ == '__main__':
         myWindow = SampleWindow()
         QToolTip.setFont(QFont("Decorative", 8, QFont.Bold))
         QCoreApplication.processEvents()
-        #time.sleep(3)
-        #myWindow.resize(300,300)
-        #myWindow.setWindowTitle("Sample Window Resized")
-        #myWindow.repaint()
+        time.sleep(3)
+        myWindow.resize(300,300)
+        myWindow.setWindowTitle("Sample Window Resized")
+        myWindow.repaint()
         myApp.exec_()
         sys.exit(0)
     except NameError:
